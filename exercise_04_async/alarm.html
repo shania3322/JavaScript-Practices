@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>OOJS: Task 1</title>
+    <style>
+      p {
+        color: purple;
+        margin: 0.5em 0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <label for="name">Name:</label><input type="text" id="name" value="Matilda">
+    </div>
+    <div>
+      <label for="delay">Delay:</label><input type="text" id="delay" value="100">
+    </div>
+	  <button id="set-alarm">Set alarm</button>
+	  <div id="output"></div>
+  </body>
+  <script>
+    const name = document.querySelector("#name");
+    const delay = document.querySelector("#delay");
+    const btn = document.querySelector("#set-alarm");
+    const output = document.querySelector("#output");
+    
+    function alarm(name, delay) {
+      return new Promise((resolve, reject) => {
+            if (delay < 0) {
+              throw new error("something is wrong.");
+            }
+            
+            window.setTimeout(()=>{
+              resolve(`Wake up ${name}`);
+            }, delay);
+      });
+    }
+
+    //using Promise, then() and catch()
+    /*
+    btn.addEventListener('click', ()=> {
+      alarm(name.value, delay.value)
+          .then(message => output.textContent = message)
+          .catch(error => output.textContent = `Couldn't set alarm ${error}`);
+    });
+    */
+    
+    // using Promise, async and await
+    btn.addEventListener('click', async ()=> {
+        try {
+          const msg = await alarm(name.value, delay.value);
+          output.textContent = msg;
+        }
+          catch(error){
+          output.textContent = `Couldn't set alarm ${error}`;
+            
+          }
+        
+        
+      });
+
+
+  </script>
+
+</html>
